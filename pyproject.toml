@@ -1,0 +1,102 @@
+[project]
+name = "pydicm-study"
+version = "0.1.0"
+description = "DICOM image processing study project"
+requires-python = ">= 3.11"
+
+# ---------- DICOM画像処理の基本依存関係 ----------
+dependencies = [
+    # コアライブラリ
+    "pydicom>=3.0.1",
+    "numpy>=1.26,<2",
+    "matplotlib>=3.8.0",
+    "pillow>=10.0.0",
+    
+    # DICOM画像処理プラグイン
+    "python-gdcm>=3.0.10",
+    "pylibjpeg>=2.0.0",
+    "pylibjpeg-libjpeg>=2.1.0",
+    
+    # 画像処理・可視化
+    "opencv-python>=4.8.0",
+    "scikit-image>=0.22.0",
+    "seaborn>=0.12.0",
+    
+    # データ処理・分析
+    "pandas>=2.0.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.3.0",
+    
+    # Jupyter環境
+    "jupyter>=1.0.0",
+    "ipykernel>=6.25.0",
+    "notebook>=6.5.0",
+    
+    # その他の便利なツール
+    "tqdm>=4.65.0",
+    "click>=8.1.0",
+]
+
+# ---------- 開発用依存関係 ----------
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+]
+
+# ---------- 医学画像処理の追加依存関係 ----------
+medical = [
+    "nibabel>=5.1.0",
+    "SimpleITK>=2.2.0",
+    "medpy>=0.4.0",
+    "pydicom-seg>=0.4.0",
+]
+
+# ---------- 機械学習・ディープラーニング ----------
+ml = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "tensorflow>=2.13.0",
+    "keras>=2.13.0",
+]
+
+# ---------- パッケージインデックス設定 ----------
+[[tool.rye.sources]]
+name = "pypi"            
+type = "index"
+url  = "https://pypi.org/simple"
+
+[[tool.rye.sources]]
+name = "pytorch"   
+type = "index"
+url  = "https://download.pytorch.org/whl/cpu"
+
+# ---------- ツール設定 ----------
+[tool.rye]
+managed = true
+index-strategy = "unsafe-best-match"
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+
+# ---------- 開発ツール設定 ----------
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
